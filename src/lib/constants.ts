@@ -8,9 +8,9 @@ export const NAV_THEME = {
     text: 'hsl(240 10% 3.9%)', // foreground
   },
   dark: {
-    background: 'hsl(240 10% 3.9%)', // background
+    background: 'hsl(220 26% 14%)', // background
     border: 'hsl(240 3.7% 15.9%)', // border
-    card: 'hsl(240 10% 3.9%)', // card
+    card: 'hsl(220 26% 14%)', // card
     notification: 'hsl(0 72% 51%)', // destructive
     primary: 'hsl(160 65% 52%)', // primary
     text: 'hsl(0 0% 98%)', // foreground
