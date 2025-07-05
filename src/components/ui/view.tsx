@@ -1,7 +1,7 @@
-import { ViewProps } from 'react-native'
+import { View as DefaultView, ViewProps } from 'react-native'
 
-function View({ ...props }: ViewProps) {
-  return <View {...props} />
+const View = ({ ...props }: ViewProps) => {
+  return <DefaultView {...props} />
 }
 
 export { View }

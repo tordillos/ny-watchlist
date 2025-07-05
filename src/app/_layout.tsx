@@ -1,5 +1,3 @@
-import { Stack } from 'expo-router'
-
 import { useColorScheme } from '@/hooks/useColorScheme'
 import { setAndroidNavigationBar } from '@/lib/android-navigation-bar'
 import { NAV_THEME } from '@/lib/constants'
@@ -9,6 +7,8 @@ import {
   Theme,
   ThemeProvider,
 } from '@react-navigation/native'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import * as React from 'react'
 import { Appearance, Platform } from 'react-native'
@@ -28,6 +28,8 @@ const usePlatformSpecificSetup = Platform.select({
   default: noop,
 })
 
+const queryClient = new QueryClient()
+
 export default function RootLayout() {
   const { isDarkColorScheme } = useColorScheme()
 
@@ -36,7 +38,9 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-      <Stack />
+      <QueryClientProvider client={queryClient}>
+        <Stack />
+      </QueryClientProvider>
     </ThemeProvider>
   )
 }
