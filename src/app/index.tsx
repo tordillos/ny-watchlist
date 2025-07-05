@@ -1,6 +1,7 @@
 import { Button, Text, View } from '@/components/ui'
 import { FlashList } from '@shopify/flash-list'
 import { useQuery } from '@tanstack/react-query'
+import { router } from 'expo-router'
 import React from 'react'
 
 type Todo = {
@@ -26,7 +27,11 @@ export default function Index() {
         renderItem={({ item }) => <Text>{item.title}</Text>}
         estimatedItemSize={200}
       />
-      <Button>
+      <Button
+        onPress={() => {
+          router.replace('/(auth)')
+        }}
+      >
         <Text>Button</Text>
       </Button>
     </View>
