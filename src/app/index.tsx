@@ -1,3 +1,4 @@
+import { ThemeToggle } from '@/components'
 import { Button, Text } from '@/components/ui'
 import { View } from 'react-native'
 
@@ -8,6 +9,7 @@ export default function Index() {
         <Text>Example</Text>
       </Button>
       <Text>Example</Text>
+      <ThemeToggle />
     </View>
   )
 }
