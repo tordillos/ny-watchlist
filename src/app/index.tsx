@@ -1,6 +1,5 @@
 import { ThemeToggle } from '@/components'
-import { Button, Text } from '@/components/ui'
-import { View } from 'react-native'
+import { Button, Text, View } from '@/components/ui'
 
 export default function Index() {
   return (
