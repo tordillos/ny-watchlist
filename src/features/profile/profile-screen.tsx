@@ -3,7 +3,7 @@ import { router } from 'expo-router'
 
 function ProfileScreen() {
   const handleLogout = () => {
-    router.replace('./')
+    router.replace('/')
   }
 
   return (
