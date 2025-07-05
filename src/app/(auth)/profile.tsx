@@ -1,9 +1,5 @@
-import { Text, View } from '@/components/ui'
+import { ProfileScreen } from '@/features/profile/profile-screen'
 
 export default function Profile() {
-  return (
-    <View>
-      <Text>Profile</Text>
-    </View>
-  )
+  return <ProfileScreen />
 }

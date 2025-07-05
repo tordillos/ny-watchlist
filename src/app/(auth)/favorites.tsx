@@ -1,9 +1,5 @@
-import { Text, View } from '@/components/ui'
+import { FavoritesScreen } from '@/features/favorites/favorites-screen'
 
 export default function Favorites() {
-  return (
-    <View>
-      <Text>Favorites</Text>
-    </View>
-  )
+  return <FavoritesScreen />
 }

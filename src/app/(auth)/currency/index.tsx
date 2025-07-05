@@ -1,14 +1,5 @@
-import { Button, Text, View } from '@/components/ui'
-
-import { router } from 'expo-router'
+import { CurrencyScreen } from '@/features/currency/currency-screen'
 
 export default function Index() {
-  return (
-    <View>
-      <Text>Index</Text>
-      <Button onPress={() => router.push('/currency/1')}>
-        <Text>Go to currency/1</Text>
-      </Button>
-    </View>
-  )
+  return <CurrencyScreen />
 }

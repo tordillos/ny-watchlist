@@ -1,11 +1,5 @@
-import { Text, View } from '@/components/ui'
-import { useLocalSearchParams } from 'expo-router'
+import { CurrencyDetailScreen } from '@/features/currency/currency-detail-screen'
 
 export default function CurrencyId() {
-  const { id } = useLocalSearchParams()
-  return (
-    <View>
-      <Text>CurrencyId {id}</Text>
-    </View>
-  )
+  return <CurrencyDetailScreen />
 }

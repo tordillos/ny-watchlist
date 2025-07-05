@@ -1,9 +1,5 @@
-import { Text, View } from '@/components/ui'
+import { SearchScreen } from '@/features/search/search-screen'
 
 export default function Search() {
-  return (
-    <View>
-      <Text>Search</Text>
-    </View>
-  )
+  return <SearchScreen />
 }
