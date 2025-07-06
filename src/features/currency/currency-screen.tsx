@@ -1,28 +1,61 @@
-import { Text } from '@/components/ui'
+import getCurrenciesList from '@/api/currencies-list'
+import { CurrencyCard, CurrencyCardSkeleton, ErrorFallback } from '@/components'
+import { EmptyState } from '@/components/empty-state'
+import { H3, View } from '@/components/ui'
+import { REFRESH_INTERVAL } from '@/lib/constants'
+import { queryKeys } from '@/lib/query-keys'
 import { FlashList } from '@shopify/flash-list'
 import { useQuery } from '@tanstack/react-query'
-
-type Todo = {
-  userId: number
-  id: number
-  title: string
-  completed: boolean
-}
-const getTodos = async () => {
-  return fetch('https://jsonplaceholder.typicode.com/todos').then((res) =>
-    res.json()
-  )
-}
+import React from 'react'
+import { RefreshControl } from 'react-native'
 
 function CurrencyScreen() {
-  const query = useQuery<Todo[]>({ queryKey: ['todos'], queryFn: getTodos })
+  const [refreshing, setRefreshing] = React.useState(false)
+
+  const { data, refetch, isPending, isError, isSuccess } = useQuery({
+    queryKey: [queryKeys.currenciesList],
+    queryFn: getCurrenciesList,
+    refetchInterval: REFRESH_INTERVAL,
+  })
+
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true)
+    await refetch()
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 500)
+  }, [refetch])
 
   return (
     <FlashList
-      contentContainerClassName="pt-safe mx-5"
-      data={query.data}
-      renderItem={({ item }) => <Text>{item.title}</Text>}
-      estimatedItemSize={200}
+      className="mt-safe"
+      ListHeaderComponent={<H3 className="mb-6">Stocks</H3>}
+      ListEmptyComponent={
+        <>
+          {isPending && (
+            <View className="gap-6">
+              <CurrencyCardSkeleton />
+              <CurrencyCardSkeleton />
+              <CurrencyCardSkeleton />
+              <CurrencyCardSkeleton />
+            </View>
+          )}
+          {isError && <ErrorFallback onTryAgain={() => refetch()} />}
+          {isSuccess && data.length === 0 && <EmptyState />}
+        </>
+      }
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{
+        paddingHorizontal: 20,
+      }}
+      data={data}
+      keyExtractor={(item) => item.code}
+      ItemSeparatorComponent={() => <View className="h-6" />}
+      renderItem={({ item }) => <CurrencyCard currency={item} />}
+      estimatedItemSize={60}
     />
   )
 }

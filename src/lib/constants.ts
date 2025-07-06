@@ -16,3 +16,5 @@ export const NAV_THEME = {
     text: 'hsl(0 0% 98%)', // foreground
   },
 }
+
+export const REFRESH_INTERVAL = 5000

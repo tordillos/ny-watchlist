@@ -1,0 +1,62 @@
+import { Text, View } from '@/components/ui'
+import { cn } from '@/lib/utils'
+import { Currency } from '@/types/api'
+import { Image } from 'expo-image'
+import { Skeleton } from './ui/skeleton'
+
+type CurrencyCardProps = {
+  currency: Currency
+}
+function CurrencyCard({ currency }: CurrencyCardProps) {
+  return (
+    <View className="h-13 flex-row items-center justify-between gap-5">
+      <View className="flex-row items-center justify-center gap-5">
+        <Image
+          source={currency.logo}
+          style={{ width: 40, height: 40, borderRadius: 20 }}
+          contentFit="cover"
+          transition={1000}
+        />
+        <View>
+          <Text className="font-bold">{currency.code}</Text>
+          <Text className="text-muted-foreground">{currency.name}</Text>
+        </View>
+      </View>
+      <View>
+        <Text className="text-right text-xl font-bold">
+          ${currency.priceUsd}
+        </Text>
+        <PercentChange value={currency.changePercent24Hr} />
+      </View>
+    </View>
+  )
+}
+
+function PercentChange({ value }: { value: number }) {
+  const isPositive = value >= 0
+  return (
+    <Text
+      className={cn(
+        'text-right',
+        isPositive ? 'text-primary' : 'text-destructive'
+      )}
+    >
+      {isPositive && '+'}
+      {value.toFixed(2)}%
+    </Text>
+  )
+}
+
+function CurrencyCardSkeleton() {
+  return (
+    <View className="h-13 flex-row items-center gap-5">
+      <Skeleton className="h-10 w-10 rounded-full" />
+      <View className="flex-1 gap-3">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-full" />
+      </View>
+    </View>
+  )
+}
+
+export { CurrencyCard, CurrencyCardSkeleton }
