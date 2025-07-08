@@ -4,17 +4,21 @@ import { EmptyState } from '@/components/empty-state'
 import { H3, View } from '@/components/ui'
 import { REFRESH_INTERVAL } from '@/lib/constants'
 import { queryKeys } from '@/lib/query-keys'
+import { useFiltersStore } from '@/stores/filters.store'
 import { FlashList } from '@shopify/flash-list'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { RefreshControl } from 'react-native'
+import { SortBottomSheet } from './sort-bottom-sheet'
 
 function CurrencyScreen() {
+  const { sortBy } = useFiltersStore()
+
   const [refreshing, setRefreshing] = React.useState(false)
 
   const { data, refetch, isPending, isError, isSuccess } = useQuery({
-    queryKey: [queryKeys.currenciesList],
-    queryFn: getCurrenciesList,
+    queryKey: [queryKeys.currenciesList, sortBy],
+    queryFn: () => getCurrenciesList(sortBy),
     refetchInterval: REFRESH_INTERVAL,
   })
 
@@ -29,7 +33,7 @@ function CurrencyScreen() {
   return (
     <FlashList
       className="mt-safe"
-      ListHeaderComponent={<H3 className="mb-6">Stocks</H3>}
+      ListHeaderComponent={ListHeader}
       ListEmptyComponent={
         <>
           {isPending && (
@@ -57,6 +61,15 @@ function CurrencyScreen() {
       renderItem={({ item }) => <CurrencyCard currency={item} />}
       estimatedItemSize={60}
     />
+  )
+}
+
+function ListHeader() {
+  return (
+    <View className="flex-row  justify-between">
+      <H3 className="mb-6">Stocks</H3>
+      <SortBottomSheet />
+    </View>
   )
 }
 

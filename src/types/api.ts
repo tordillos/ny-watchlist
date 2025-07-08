@@ -5,3 +5,5 @@ export type Currency = {
   priceUsd: number
   changePercent24Hr: number
 }
+
+export type CurrencySort = 'name' | 'price' | 'change'

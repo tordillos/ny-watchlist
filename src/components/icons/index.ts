@@ -1,3 +1,4 @@
+export * from './arrow-up-a-z'
 export * from './chart-candlestick'
 export * from './heart'
 export * from './house'
