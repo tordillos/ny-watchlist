@@ -2,14 +2,23 @@ import { Text, View } from '@/components/ui'
 import { cn } from '@/lib/utils'
 import { Currency } from '@/types/api'
 import { Image } from 'expo-image'
+import { router } from 'expo-router'
+import { Pressable } from 'react-native'
 import { Skeleton } from './ui/skeleton'
 
 type CurrencyCardProps = {
   currency: Currency
 }
 function CurrencyCard({ currency }: CurrencyCardProps) {
+  const handlePress = () => {
+    router.push(`/currency/${currency.code}`)
+  }
+
   return (
-    <View className="h-13 flex-row items-center justify-between gap-5">
+    <Pressable
+      onPress={handlePress}
+      className="h-13 flex-row items-center justify-between gap-5"
+    >
       <View className="flex-row items-center justify-center gap-5">
         <Image
           source={currency.logo}
@@ -28,7 +37,7 @@ function CurrencyCard({ currency }: CurrencyCardProps) {
         </Text>
         <PercentChange value={currency.changePercent24Hr} />
       </View>
-    </View>
+    </Pressable>
   )
 }
 
