@@ -1,14 +1,22 @@
 import getCurrenciesList from '@/api/get-currencies-list'
 import { REFRESH_INTERVAL } from '@/lib/constants'
 import { queryKeys } from '@/lib/query-keys'
-import { CurrencySort } from '@/types/api'
-import { useQuery } from '@tanstack/react-query'
+import { Currency, CurrencySort } from '@/types/api'
+import { UseQueryOptions, useQuery } from '@tanstack/react-query'
 
-const useCurrencies = (sortBy?: CurrencySort) =>
-  useQuery({
+const useCurrencies = (
+  sortBy?: CurrencySort,
+  options?: Omit<
+    UseQueryOptions<Currency[], Error, Currency[], readonly unknown[]>,
+    'queryKey' | 'queryFn'
+  >
+) => {
+  return useQuery({
     queryKey: [queryKeys.currenciesList, sortBy],
     queryFn: () => getCurrenciesList(sortBy),
     refetchInterval: REFRESH_INTERVAL,
+    ...options,
   })
+}
 
 export { useCurrencies }
