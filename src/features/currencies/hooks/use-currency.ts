@@ -1,4 +1,4 @@
-import getCurrency from '@/api/currencies-by-code'
+import getCurrency from '@/api/currency-by-code'
 import { REFRESH_INTERVAL } from '@/lib/constants'
 import { queryKeys } from '@/lib/query-keys'
 import { useQuery } from '@tanstack/react-query'

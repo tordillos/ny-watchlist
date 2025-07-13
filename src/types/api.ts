@@ -7,3 +7,11 @@ export type Currency = {
 }
 
 export type CurrencySort = 'name' | 'price' | 'change'
+
+export interface CurrencyStock extends Record<string, unknown> {
+  date: string
+  high: number
+  low: number
+  open: number
+  close: number
+}

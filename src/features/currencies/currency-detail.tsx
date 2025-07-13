@@ -1,4 +1,3 @@
-import data from '@/api/currency-stocks.json'
 import { H3, View } from '@/components/ui'
 import { useColorScheme } from '@/hooks/useColorScheme'
 import * as Haptics from 'expo-haptics'
@@ -10,13 +9,19 @@ import { CartesianChart, useChartPressState } from 'victory-native'
 import { formatDate } from '@/api/lib/util'
 import { AnimatedText } from '@/components/ui/reanimated'
 import { STOCK_THEME } from '@/lib/constants'
+import { CurrencyStock } from '@/types/api'
 import { ScrollView } from 'react-native-gesture-handler'
 import { ActiveValueIndicator, StockArea } from './components'
+import { useCurrency, useCurrencyStocks } from './hooks'
 
 const initChartPressState = { x: 0, y: { high: 0 } }
 
 function CurrencyDetailScreen() {
   const { id } = useLocalSearchParams()
+
+  const { data: stocks, isSuccess, isLoading } = useCurrencyStocks(id as string)
+
+  const { data: currency } = useCurrency(id as string)
 
   const { isDarkColorScheme: isDark } = useColorScheme()
 
@@ -95,10 +100,12 @@ function CurrencyDetailScreen() {
       : STOCK_THEME.error[colorPrefix]
   })
 
+  const chartData: CurrencyStock[] = isLoading ? [] : (stocks ?? [])
+
   return (
     <ScrollView className="m-5 flex-1">
       <View className="flex-1 gap-2">
-        <H3>BTC - Bitcoin</H3>
+        <H3>{currency?.name}</H3>
         <AnimatedText
           text={activeHigh}
           className="w-full text-left text-2xl font-bold text-foreground"
@@ -109,64 +116,66 @@ function CurrencyDetailScreen() {
         />
       </View>
       <View className="h-96 w-full flex-1 py-5">
-        <CartesianChart
-          data={data}
-          xKey="date"
-          yKeys={['high']}
-          // @ts-ignore
-          chartPressState={[firstTouch, secondTouch]}
-          axisOptions={{
-            tickCount: 5,
-            labelOffset: { x: 0, y: 0 },
-            labelPosition: { x: 'inset', y: 'inset' },
-            formatXLabel: (ms) => '',
-            formatYLabel: (v) => '',
-            lineColor: '#00000000',
-          }}
-          renderOutside={({ chartBounds }) => (
-            <>
-              {isFirstPressActive && (
-                <>
-                  <ActiveValueIndicator
-                    xPosition={firstTouch.x.position}
-                    yPosition={firstTouch.y.high.position}
-                    bottom={chartBounds.bottom}
-                    top={chartBounds.top}
-                    lineColor={STOCK_THEME.lineColor[colorPrefix]}
-                    indicatorColor={indicatorColor}
-                  />
-                </>
-              )}
-              {isSecondPressActive && (
-                <>
-                  <ActiveValueIndicator
-                    xPosition={secondTouch.x.position}
-                    yPosition={secondTouch.y.high.position}
-                    bottom={chartBounds.bottom}
-                    top={chartBounds.top}
-                    lineColor={STOCK_THEME.lineColor[colorPrefix]}
-                    indicatorColor={indicatorColor}
-                    topOffset={16}
-                  />
-                </>
-              )}
-            </>
-          )}
-        >
-          {/* 👇 render function exposes various data, such as points. */}
-          {({ chartBounds, points }) => (
-            <>
-              <StockArea
-                points={points.high}
-                isWindowActive={isFirstPressActive && isSecondPressActive}
-                isDeltaPositive={isDeltaPositive}
-                startX={firstTouch.x.position}
-                endX={secondTouch.x.position}
-                {...chartBounds}
-              />
-            </>
-          )}
-        </CartesianChart>
+        {isSuccess && (
+          <CartesianChart
+            data={chartData}
+            xKey="date"
+            yKeys={['high']}
+            // @ts-ignore
+            chartPressState={[firstTouch, secondTouch]}
+            axisOptions={{
+              tickCount: 5,
+              labelOffset: { x: 0, y: 0 },
+              labelPosition: { x: 'inset', y: 'inset' },
+              formatXLabel: (ms) => '',
+              formatYLabel: (v) => '',
+              lineColor: '#00000000',
+            }}
+            renderOutside={({ chartBounds }) => (
+              <>
+                {isFirstPressActive && (
+                  <>
+                    <ActiveValueIndicator
+                      xPosition={firstTouch.x.position}
+                      yPosition={firstTouch.y.high.position}
+                      bottom={chartBounds.bottom}
+                      top={chartBounds.top}
+                      lineColor={STOCK_THEME.lineColor[colorPrefix]}
+                      indicatorColor={indicatorColor}
+                    />
+                  </>
+                )}
+                {isSecondPressActive && (
+                  <>
+                    <ActiveValueIndicator
+                      xPosition={secondTouch.x.position}
+                      yPosition={secondTouch.y.high.position}
+                      bottom={chartBounds.bottom}
+                      top={chartBounds.top}
+                      lineColor={STOCK_THEME.lineColor[colorPrefix]}
+                      indicatorColor={indicatorColor}
+                      topOffset={16}
+                    />
+                  </>
+                )}
+              </>
+            )}
+          >
+            {/* 👇 render function exposes various data, such as points. */}
+            {({ chartBounds, points }) => (
+              <>
+                <StockArea
+                  points={points.high}
+                  isWindowActive={isFirstPressActive && isSecondPressActive}
+                  isDeltaPositive={isDeltaPositive}
+                  startX={firstTouch.x.position}
+                  endX={secondTouch.x.position}
+                  {...chartBounds}
+                />
+              </>
+            )}
+          </CartesianChart>
+        )}
       </View>
     </ScrollView>
   )

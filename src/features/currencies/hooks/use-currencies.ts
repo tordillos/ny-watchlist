@@ -1,4 +1,4 @@
-import getCurrenciesList from '@/api/currencies-list'
+import getCurrenciesList from '@/api/get-currencies-list'
 import { REFRESH_INTERVAL } from '@/lib/constants'
 import { queryKeys } from '@/lib/query-keys'
 import { CurrencySort } from '@/types/api'
