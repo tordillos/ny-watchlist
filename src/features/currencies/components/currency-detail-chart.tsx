@@ -1,4 +1,4 @@
-import { H2, Muted, View } from '@/components/ui'
+import { H2, Muted, Skeleton, View } from '@/components/ui'
 import { useColorScheme } from '@/hooks/useColorScheme'
 import * as Haptics from 'expo-haptics'
 import React from 'react'
@@ -187,4 +187,15 @@ const CurrencyDetailChart = ({
   )
 }
 
-export { CurrencyDetailChart }
+function CurrencyDetailChartSkeleton() {
+  return (
+    <View className="flex-1 gap-5">
+      <Skeleton className="h-6 w-full" />
+      <Skeleton className="h-6 w-full" />
+      <Skeleton className="h-6 w-full" />
+      <Skeleton className="h-60 w-full" />
+    </View>
+  )
+}
+
+export { CurrencyDetailChart, CurrencyDetailChartSkeleton }
