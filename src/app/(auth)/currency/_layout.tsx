@@ -13,9 +13,9 @@ export default function Home() {
       />
       <Stack.Screen
         name="[id]"
-        options={{
-          title: 'Currency',
-        }}
+        options={({ route }) => ({
+          title: (route.params as any)?.name ?? 'Currency',
+        })}
       />
     </Stack>
   )
