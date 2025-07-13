@@ -1,9 +1,9 @@
 import { Skeleton, Text, View } from '@/components/ui'
-import { cn } from '@/lib/utils'
 import { Currency } from '@/types/api'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import { Pressable } from 'react-native'
+import { PercentChange } from './percent-change'
 
 type CurrencyCardProps = {
   currency: Currency
@@ -40,24 +40,12 @@ function CurrencyCard({ currency }: CurrencyCardProps) {
         <Text className="text-right text-xl font-bold">
           ${currency.priceUsd}
         </Text>
-        <PercentChange value={currency.changePercent24Hr} />
+        <PercentChange
+          className="text-right"
+          value={currency.changePercent24Hr}
+        />
       </View>
     </Pressable>
-  )
-}
-
-function PercentChange({ value }: { value: number }) {
-  const isPositive = value >= 0
-  return (
-    <Text
-      className={cn(
-        'text-right',
-        isPositive ? 'text-primary' : 'text-destructive'
-      )}
-    >
-      {isPositive && '+'}
-      {value.toFixed(2)}%
-    </Text>
   )
 }
 
