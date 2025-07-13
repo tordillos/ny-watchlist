@@ -1,27 +1,19 @@
 import data from '@/api/currency-stocks.json'
-import { View } from '@/components/ui'
+import { H3, View } from '@/components/ui'
 import { useColorScheme } from '@/hooks/useColorScheme'
 import {
   Circle,
   Group,
   LinearGradient,
-  matchFont,
   Path,
   Skia,
   Line as SkiaLine,
-  Text as SkiaText,
   vec,
 } from '@shopify/react-native-skia'
-import { format } from 'date-fns'
 import * as Haptics from 'expo-haptics'
 import { useLocalSearchParams } from 'expo-router'
 import React from 'react'
-import { TextStyle } from 'react-native'
-import {
-  SharedValue,
-  useAnimatedStyle,
-  useDerivedValue,
-} from 'react-native-reanimated'
+import { SharedValue, useDerivedValue } from 'react-native-reanimated'
 import {
   CartesianChart,
   ChartBounds,
@@ -31,6 +23,7 @@ import {
   useLinePath,
 } from 'victory-native'
 
+import { formatDate } from '@/api/lib/util'
 import { AnimatedText } from '@/components/ui/reanimated'
 import { STOCK_THEME } from '@/lib/constants'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -43,16 +36,6 @@ function CurrencyDetailScreen() {
   const { isDarkColorScheme: isDark } = useColorScheme()
 
   const colorPrefix = isDark ? 'dark' : 'light'
-
-  const fontFamily = 'Helvetica'
-  const fontStyle = {
-    fontFamily,
-    fontSize: 14,
-    fontStyle: 'italic',
-    fontWeight: 'bold',
-  }
-
-  const font = matchFont(fontStyle)
 
   const textColor = isDark ? STOCK_THEME.text.dark : STOCK_THEME.text.light
   const { state: firstTouch, isActive: isFirstPressActive } =
@@ -120,19 +103,6 @@ function CurrencyDetailScreen() {
     return early.y.high.value.value < late.y.high.value.value
   })
 
-  // Color the active high display based on the delta
-  const activeHighStyle = useAnimatedStyle<TextStyle>(() => {
-    const s: TextStyle = { fontSize: 24, fontWeight: 'bold', color: textColor }
-
-    // One-touch
-    if (!isSecondPressActive) return s
-    s.color = isDeltaPositive.value
-      ? STOCK_THEME.success[colorPrefix]
-      : STOCK_THEME.error[colorPrefix]
-
-    return s
-  })
-
   // Indicator color based on delta
   const indicatorColor = useDerivedValue<string>(() => {
     if (!(isFirstPressActive && isSecondPressActive)) return STOCK_THEME.tint
@@ -142,7 +112,18 @@ function CurrencyDetailScreen() {
   })
 
   return (
-    <ScrollView className="flex-1">
+    <ScrollView className="m-5 flex-1">
+      <View className="flex-1 gap-2">
+        <H3>BTC - Bitcoin</H3>
+        <AnimatedText
+          text={activeHigh}
+          className="w-full text-left text-2xl font-bold text-foreground"
+        />
+        <AnimatedText
+          text={activeDate}
+          className="w-full text-left text-foreground"
+        />
+      </View>
       <View className="h-96 w-full flex-1 py-5">
         <CartesianChart
           data={data}
@@ -151,15 +132,12 @@ function CurrencyDetailScreen() {
           // @ts-ignore
           chartPressState={[firstTouch, secondTouch]}
           axisOptions={{
-            font,
             tickCount: 5,
-            labelOffset: { x: 12, y: 8 },
-            labelPosition: { x: 'outset', y: 'outset' },
-            axisSide: { x: 'bottom', y: 'left' },
-            formatXLabel: (ms) => format(new Date(ms), 'MM/yy'),
-            formatYLabel: (v) => `$${v}`,
-            lineColor: isDark ? '#71717a' : '#d4d4d8',
-            labelColor: textColor,
+            labelOffset: { x: 0, y: 0 },
+            labelPosition: { x: 'inset', y: 'inset' },
+            formatXLabel: (ms) => '',
+            formatYLabel: (v) => '',
+            lineColor: '#00000000',
           }}
           renderOutside={({ chartBounds }) => (
             <>
@@ -172,7 +150,7 @@ function CurrencyDetailScreen() {
                     top={chartBounds.top}
                     activeValue={firstTouch.y.high.value}
                     textColor={textColor}
-                    lineColor={isDark ? '#71717a' : '#d4d4d8'}
+                    lineColor={STOCK_THEME.lineColor[colorPrefix]}
                     indicatorColor={indicatorColor}
                   />
                 </>
@@ -186,7 +164,7 @@ function CurrencyDetailScreen() {
                     top={chartBounds.top}
                     activeValue={secondTouch.y.high.value}
                     textColor={textColor}
-                    lineColor={isDark ? '#71717a' : '#d4d4d8'}
+                    lineColor={STOCK_THEME.lineColor[colorPrefix]}
                     indicatorColor={indicatorColor}
                     topOffset={16}
                   />
@@ -210,17 +188,6 @@ function CurrencyDetailScreen() {
             </>
           )}
         </CartesianChart>
-      </View>
-
-      <View className="flex-1">
-        <AnimatedText
-          text={activeDate}
-          className="w-full text-center text-foreground"
-        />
-        <AnimatedText
-          text={activeHigh}
-          className="w-full text-center text-2xl text-foreground"
-        />
       </View>
     </ScrollView>
   )
@@ -283,29 +250,11 @@ const StockArea = ({
     <>
       {/* Base */}
       <Group clip={backgroundClip} opacity={isWindowActive ? 0.3 : 1}>
-        <Path path={areaPath} style="fill">
-          <LinearGradient
-            start={vec(0, 0)}
-            end={vec(top, bottom)}
-            colors={
-              isWindowActive
-                ? [
-                    STOCK_THEME.cardBorder[colorPrefix],
-                    `${STOCK_THEME.cardBorder[colorPrefix]}33`,
-                  ]
-                : [STOCK_THEME.tint, `${STOCK_THEME.tint}33`]
-            }
-          />
-        </Path>
         <Path
           path={linePath}
           style="stroke"
           strokeWidth={2}
-          color={
-            isWindowActive
-              ? STOCK_THEME.cardBorder[colorPrefix]
-              : STOCK_THEME.tint
-          }
+          color={STOCK_THEME.tint}
         />
       </Group>
       {/* Clipped window */}
@@ -368,20 +317,6 @@ const ActiveValueIndicator = ({
   const end = useDerivedValue(() =>
     vec(xPosition.value, top + 1.5 * FONT_SIZE + topOffset)
   )
-  // Text label
-  const activeValueDisplay = useDerivedValue(
-    () => '$' + activeValue.value.toFixed(2)
-  )
-
-  const fontFamily = 'Helvetica'
-  const fontStyle = {
-    fontFamily,
-    fontSize: 14,
-    fontStyle: 'italic',
-    fontWeight: 'bold',
-  }
-
-  const font = matchFont(fontStyle)
 
   return (
     <>
@@ -393,40 +328,8 @@ const ActiveValueIndicator = ({
         r={8}
         color="hsla(0, 0, 100%, 0.25)"
       />
-      <SkiaText
-        color={textColor}
-        font={font}
-        text={activeValueDisplay.value}
-        x={xPosition.value}
-        y={top + FONT_SIZE + topOffset}
-      />
     </>
   )
-}
-
-const MONTHS = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-]
-
-const formatDate = (ms: number) => {
-  'worklet'
-
-  const date = new Date(ms)
-  const M = MONTHS[date.getMonth()]
-  const D = date.getDate()
-  const Y = date.getFullYear()
-  return `${M} ${D}, ${Y}`
 }
 
 export { CurrencyDetailScreen }

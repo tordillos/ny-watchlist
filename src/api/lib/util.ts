@@ -5,3 +5,15 @@ export function randomUSD() {
 export function randomPercentChange() {
   return Math.random() * 200 - 100
 }
+
+export const formatDate = (ms: number) => {
+  'worklet'
+
+  const date = new Date(ms)
+  const options: Intl.DateTimeFormatOptions = {
+    dateStyle: 'full',
+  }
+  const formattedDate = date.toLocaleDateString('en-GB', options)
+
+  return formattedDate
+}
