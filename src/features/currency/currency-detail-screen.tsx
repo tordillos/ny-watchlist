@@ -17,9 +17,8 @@ import * as Haptics from 'expo-haptics'
 import { useLocalSearchParams } from 'expo-router'
 import React from 'react'
 import { TextStyle } from 'react-native'
-import Reanimated, {
+import {
   SharedValue,
-  useAnimatedProps,
   useAnimatedStyle,
   useDerivedValue,
 } from 'react-native-reanimated'
@@ -32,22 +31,9 @@ import {
   useLinePath,
 } from 'victory-native'
 
-import { TextInput, type TextInputProps } from 'react-native'
+import { AnimatedText } from '@/components/ui/reanimated'
+import { STOCK_THEME } from '@/lib/constants'
 import { ScrollView } from 'react-native-gesture-handler'
-const appColors = {
-  tint: '#f04d21',
-  androidHeader: { dark: '#262626', light: '#fafafa' },
-  viewBackground: { dark: '#404040', light: '#f5f5f5' },
-  text: { dark: '#fafafa', light: '#262626' },
-  cardBackground: { dark: '#525252', light: '#fff' },
-  cardBorder: { dark: '#a1a1aa', light: '#a1a1aa' },
-  success: { dark: '#7ee17e', light: '#085408' },
-  error: { dark: '#c84c4c', light: '#9e1a1a' },
-  infoCardActive: { dark: '#c4b5fd', light: '#8b5cf6' },
-  buttonBackgroundColor: { dark: '#737373', light: '#e7e7e7' },
-  buttonBorderColor: { dark: '#a3a3a3', light: 'white' },
-  buttonUnderlayColor: { dark: '#8b5cf6', light: '#ddd6fe' },
-} as const
 
 const initChartPressState = { x: 0, y: { high: 0 } }
 
@@ -68,7 +54,7 @@ function CurrencyDetailScreen() {
 
   const font = matchFont(fontStyle)
 
-  const textColor = isDark ? appColors.text.dark : appColors.text.light
+  const textColor = isDark ? STOCK_THEME.text.dark : STOCK_THEME.text.light
   const { state: firstTouch, isActive: isFirstPressActive } =
     useChartPressState(initChartPressState)
 
@@ -141,18 +127,18 @@ function CurrencyDetailScreen() {
     // One-touch
     if (!isSecondPressActive) return s
     s.color = isDeltaPositive.value
-      ? appColors.success[colorPrefix]
-      : appColors.error[colorPrefix]
+      ? STOCK_THEME.success[colorPrefix]
+      : STOCK_THEME.error[colorPrefix]
 
     return s
   })
 
   // Indicator color based on delta
   const indicatorColor = useDerivedValue<string>(() => {
-    if (!(isFirstPressActive && isSecondPressActive)) return appColors.tint
+    if (!(isFirstPressActive && isSecondPressActive)) return STOCK_THEME.tint
     return isDeltaPositive.value
-      ? appColors.success[colorPrefix]
-      : appColors.error[colorPrefix]
+      ? STOCK_THEME.success[colorPrefix]
+      : STOCK_THEME.error[colorPrefix]
   })
 
   return (
@@ -162,6 +148,7 @@ function CurrencyDetailScreen() {
           data={data}
           xKey="date"
           yKeys={['high']}
+          // @ts-ignore
           chartPressState={[firstTouch, secondTouch]}
           axisOptions={{
             font,
@@ -225,22 +212,10 @@ function CurrencyDetailScreen() {
         </CartesianChart>
       </View>
 
-      <View
-        style={{
-          paddingBottom: 16,
-          paddingTop: 0,
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: 80,
-          width: '100%',
-        }}
-      >
+      <View className="flex-1">
         <AnimatedText
           text={activeDate}
-          style={{
-            // fontSize: 16,
-            color: textColor,
-          }}
+          className="w-full text-center text-foreground"
         />
         <AnimatedText
           text={activeHigh}
@@ -300,8 +275,8 @@ const StockArea = ({
 
   const windowLineColor = useDerivedValue(() => {
     return isDeltaPositive.value
-      ? appColors.success[colorPrefix]
-      : appColors.error[colorPrefix]
+      ? STOCK_THEME.success[colorPrefix]
+      : STOCK_THEME.error[colorPrefix]
   })
 
   return (
@@ -315,10 +290,10 @@ const StockArea = ({
             colors={
               isWindowActive
                 ? [
-                    appColors.cardBorder[colorPrefix],
-                    `${appColors.cardBorder[colorPrefix]}33`,
+                    STOCK_THEME.cardBorder[colorPrefix],
+                    `${STOCK_THEME.cardBorder[colorPrefix]}33`,
                   ]
-                : [appColors.tint, `${appColors.tint}33`]
+                : [STOCK_THEME.tint, `${STOCK_THEME.tint}33`]
             }
           />
         </Path>
@@ -327,7 +302,9 @@ const StockArea = ({
           style="stroke"
           strokeWidth={2}
           color={
-            isWindowActive ? appColors.cardBorder[colorPrefix] : appColors.tint
+            isWindowActive
+              ? STOCK_THEME.cardBorder[colorPrefix]
+              : STOCK_THEME.tint
           }
         />
       </Group>
@@ -340,15 +317,15 @@ const StockArea = ({
               end={vec(top, bottom)}
               colors={
                 !isWindowActive
-                  ? [appColors.tint, `${appColors.tint}33`]
+                  ? [STOCK_THEME.tint, `${STOCK_THEME.tint}33`]
                   : isDeltaPositive.value
                     ? [
-                        appColors.success[colorPrefix],
-                        `${appColors.success[colorPrefix]}33`,
+                        STOCK_THEME.success[colorPrefix],
+                        `${STOCK_THEME.success[colorPrefix]}33`,
                       ]
                     : [
-                        appColors.error[colorPrefix],
-                        `${appColors.error[colorPrefix]}33`,
+                        STOCK_THEME.error[colorPrefix],
+                        `${STOCK_THEME.error[colorPrefix]}33`,
                       ]
               }
             />
@@ -450,32 +427,6 @@ const formatDate = (ms: number) => {
   const D = date.getDate()
   const Y = date.getFullYear()
   return `${M} ${D}, ${Y}`
-}
-
-const AnimText = Reanimated.createAnimatedComponent(TextInput)
-Reanimated.addWhitelistedNativeProps({ text: true })
-
-type AnimatedTextProps = Omit<TextInputProps, 'editable' | 'value'> & {
-  text: SharedValue<string>
-  style?: React.ComponentProps<typeof AnimText>['style']
-}
-
-export function AnimatedText({ text, ...rest }: AnimatedTextProps) {
-  const animProps = useAnimatedProps(() => {
-    return {
-      text: text.value,
-    }
-  })
-
-  return (
-    <AnimText
-      {...rest}
-      value={text.value}
-      // @ts-ignore
-      animatedProps={animProps}
-      editable={false}
-    />
-  )
 }
 
 export { CurrencyDetailScreen }
