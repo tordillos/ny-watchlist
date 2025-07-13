@@ -1,5 +1,5 @@
 import getCurrenciesList from '@/api/currencies-list'
-import { CurrencyCard, CurrencyCardSkeleton, ErrorFallback } from '@/components'
+import { ErrorFallback } from '@/components'
 import { EmptyState } from '@/components/empty-state'
 import { H3, View } from '@/components/ui'
 import { REFRESH_INTERVAL } from '@/lib/constants'
@@ -9,9 +9,10 @@ import { FlashList } from '@shopify/flash-list'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { RefreshControl } from 'react-native'
-import { SortBottomSheet } from './sort-bottom-sheet'
+import { CurrencyCard, CurrencyCardSkeleton } from './components'
+import { SortBottomSheet } from './components/sort-bottom-sheet'
 
-function CurrencyScreen() {
+function CurrenciesScreen() {
   const { sortBy } = useFiltersStore()
 
   const [refreshing, setRefreshing] = React.useState(false)
@@ -73,4 +74,4 @@ function ListHeader() {
   )
 }
 
-export { CurrencyScreen }
+export { CurrenciesScreen as CurrencyScreen }

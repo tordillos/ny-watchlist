@@ -1,4 +1,4 @@
-import { CurrencyDetailScreen } from '@/features/currency/currency-detail-screen'
+import { CurrencyDetailScreen } from '@/features/currencies/currency-detail'
 
 export default function CurrencyId() {
   return <CurrencyDetailScreen />

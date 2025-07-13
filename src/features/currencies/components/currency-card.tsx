@@ -1,10 +1,9 @@
-import { Text, View } from '@/components/ui'
+import { Skeleton, Text, View } from '@/components/ui'
 import { cn } from '@/lib/utils'
 import { Currency } from '@/types/api'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import { Pressable } from 'react-native'
-import { Skeleton } from './ui/skeleton'
 
 type CurrencyCardProps = {
   currency: Currency
