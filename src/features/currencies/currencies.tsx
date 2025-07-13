@@ -1,27 +1,20 @@
-import getCurrenciesList from '@/api/currencies-list'
 import { ErrorFallback } from '@/components'
 import { EmptyState } from '@/components/empty-state'
 import { H3, View } from '@/components/ui'
-import { REFRESH_INTERVAL } from '@/lib/constants'
-import { queryKeys } from '@/lib/query-keys'
 import { useFiltersStore } from '@/stores/filters.store'
 import { FlashList } from '@shopify/flash-list'
-import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { RefreshControl } from 'react-native'
 import { CurrencyCard, CurrencyCardSkeleton } from './components'
 import { SortBottomSheet } from './components/sort-bottom-sheet'
+import { useCurrencies } from './hooks'
 
 function CurrenciesScreen() {
   const { sortBy } = useFiltersStore()
 
   const [refreshing, setRefreshing] = React.useState(false)
 
-  const { data, refetch, isPending, isError, isSuccess } = useQuery({
-    queryKey: [queryKeys.currenciesList, sortBy],
-    queryFn: () => getCurrenciesList(sortBy),
-    refetchInterval: REFRESH_INTERVAL,
-  })
+  const { data, refetch, isPending, isError, isSuccess } = useCurrencies(sortBy)
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true)
