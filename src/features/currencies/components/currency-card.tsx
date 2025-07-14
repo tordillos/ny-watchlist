@@ -11,7 +11,7 @@ type CurrencyCardProps = {
 function CurrencyCard({ currency }: CurrencyCardProps) {
   const handlePress = () => {
     router.push({
-      pathname: `/currency/[id]`,
+      pathname: '/(auth)/home/[id]',
       params: {
         id: currency.code,
         name: currency.name,
