@@ -39,7 +39,11 @@ function CurrenciesScreen() {
             </View>
           )}
           {isError && <ErrorFallback onTryAgain={() => refetch()} />}
-          {isSuccess && data.length === 0 && <EmptyState />}
+          {isSuccess && data.length === 0 && (
+            <View className="h-[70vh]">
+              <EmptyState />
+            </View>
+          )}
         </>
       }
       refreshControl={
