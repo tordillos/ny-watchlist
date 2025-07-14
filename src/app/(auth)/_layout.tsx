@@ -9,7 +9,7 @@ export default function AuthLayout() {
 
   return (
     <Tabs
-      initialRouteName="currency"
+      initialRouteName="home"
       backBehavior="initialRoute"
       screenOptions={{
         tabBarStyle: {
@@ -20,7 +20,7 @@ export default function AuthLayout() {
       }}
     >
       <Tabs.Screen
-        name="currency"
+        name="home"
         options={{
           title: 'Home',
           tabBarLabel: () => null,
