@@ -1,13 +1,13 @@
 import { Star } from '@/components/icons'
-import { Button } from '@/components/ui'
+import { Button, ButtonProps } from '@/components/ui'
 import { cn } from '@/lib/utils'
 import useFavoritesStore from '@/stores/favorites.store'
 
-type CurrencyHeaderFavoriteProps = {
+type CurrencyFavoriteProps = {
   id: string
-}
+} & ButtonProps
 
-const CurrencyHeaderFavorite = ({ id }: CurrencyHeaderFavoriteProps) => {
+const CurrencyFavorite = ({ id, ...props }: CurrencyFavoriteProps) => {
   const { favorites, addFavorite, removeFavorite } = useFavoritesStore()
   const isFavorite = favorites.includes(id)
 
@@ -20,10 +20,10 @@ const CurrencyHeaderFavorite = ({ id }: CurrencyHeaderFavoriteProps) => {
   }
 
   return (
-    <Button size="icon" variant="link" onPress={handlePress}>
+    <Button size="icon" variant="link" onPress={handlePress} {...props}>
       <Star className={cn('text-primary', isFavorite && 'fill-primary')} />
     </Button>
   )
 }
 
-export { CurrencyHeaderFavorite }
+export { CurrencyFavorite }

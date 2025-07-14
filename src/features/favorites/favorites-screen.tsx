@@ -6,7 +6,8 @@ import { useFiltersStore } from '@/stores/filters.store'
 import { FlashList } from '@shopify/flash-list'
 import React from 'react'
 import { RefreshControl } from 'react-native'
-import { CurrencyCard, CurrencyCardSkeleton } from '../currencies/components'
+
+import { CurrencyCard, CurrencyCardSkeleton } from './components'
 import { useFavoritesCurrencies } from './hooks'
 
 function FavoritesScreen() {

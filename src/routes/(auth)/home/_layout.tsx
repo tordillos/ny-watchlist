@@ -1,4 +1,4 @@
-import { CurrencyHeaderFavorite } from '@/components'
+import { CurrencyFavorite } from '@/components'
 import { Stack } from 'expo-router'
 import React from 'react'
 
@@ -17,7 +17,7 @@ export default function Home() {
         options={({ route }) => ({
           title: (route.params as any)?.name ?? 'Currency',
           headerRight: () => (
-            <CurrencyHeaderFavorite id={(route.params as any)?.id} />
+            <CurrencyFavorite id={(route.params as any)?.id} />
           ),
         })}
       />

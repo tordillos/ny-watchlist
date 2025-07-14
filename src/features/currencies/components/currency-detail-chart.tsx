@@ -6,11 +6,11 @@ import { useDerivedValue } from 'react-native-reanimated'
 import { CartesianChart, useChartPressState } from 'victory-native'
 
 import { formatDate } from '@/api/lib/util'
+import { PercentChange } from '@/components'
 import { AnimatedText } from '@/components/ui/reanimated'
 import { STOCK_THEME } from '@/lib/constants'
 import { Currency, CurrencyStock } from '@/types/api'
 import { ActiveValueIndicator, StockArea } from '../components'
-import { PercentChange } from './percent-change'
 
 const initChartPressState = { x: 0, y: { high: 0 } }
 

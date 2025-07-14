@@ -1,4 +1,4 @@
-import { PercentChange } from '@/components'
+import { CurrencyFavorite, PercentChange } from '@/components/'
 import { Skeleton, Text, View } from '@/components/ui'
 import { Currency } from '@/types/api'
 import { Image } from 'expo-image'
@@ -11,7 +11,7 @@ type CurrencyCardProps = {
 function CurrencyCard({ currency }: CurrencyCardProps) {
   const handlePress = () => {
     router.push({
-      pathname: '/(auth)/home/[id]',
+      pathname: '/(auth)/favorites/[id]',
       params: {
         id: currency.code,
         name: currency.name,
@@ -36,7 +36,7 @@ function CurrencyCard({ currency }: CurrencyCardProps) {
           <Text className="text-muted-foreground">{currency.name}</Text>
         </View>
       </View>
-      <View>
+      <View className="flex-1">
         <Text className="text-right text-xl font-bold">
           ${currency.priceUsd}
         </Text>
@@ -45,6 +45,7 @@ function CurrencyCard({ currency }: CurrencyCardProps) {
           value={currency.changePercent24Hr}
         />
       </View>
+      <CurrencyFavorite id={currency.code} />
     </Pressable>
   )
 }
