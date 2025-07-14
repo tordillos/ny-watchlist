@@ -4,7 +4,7 @@ const { hairlineWidth } = require('nativewind/theme')
 module.exports = {
   darkMode: 'class',
   content: [
-    './src/app/**/*.{js,jsx,ts,tsx}',
+    './src/routes/**/*.{js,jsx,ts,tsx}',
     './src/components/**/*.{js,jsx,ts,tsx}',
     './src/features/**/*.{js,jsx,ts,tsx}',
   ],
