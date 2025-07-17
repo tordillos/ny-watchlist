@@ -14,12 +14,16 @@
     },
     "android": {
       "edgeToEdgeEnabled": true,
-      "package": "com.tordi.mywatchlist"
+      "package": "com.tordi.mywatchlist",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#33d49d"
+      }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/icon.png"
     },
     "plugins": [
       "expo-router",
