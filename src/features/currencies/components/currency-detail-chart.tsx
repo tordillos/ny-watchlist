@@ -10,7 +10,8 @@ import { PercentChange } from '@/components'
 import { AnimatedText } from '@/components/ui/reanimated'
 import { STOCK_THEME } from '@/lib/constants'
 import { Currency, CurrencyStock } from '@/types/api'
-import { ActiveValueIndicator, StockArea } from '../components'
+import { ActiveValueIndicator } from './active-value-indicator'
+import { StockArea } from './stock-area'
 
 const initChartPressState = { x: 0, y: { high: 0 } }
 
