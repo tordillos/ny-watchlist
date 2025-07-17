@@ -9,7 +9,7 @@ export default function AuthLayout() {
 
   return (
     <Tabs
-      initialRouteName="home"
+      initialRouteName="(home)"
       backBehavior="initialRoute"
       screenOptions={{
         tabBarStyle: {
@@ -20,7 +20,7 @@ export default function AuthLayout() {
       }}
     >
       <Tabs.Screen
-        name="home"
+        name="(home)"
         options={{
           title: 'Home',
           tabBarLabel: () => null,
@@ -28,7 +28,7 @@ export default function AuthLayout() {
         }}
       />
       <Tabs.Screen
-        name="search"
+        name="(search)"
         options={{
           title: 'Search',
           tabBarLabel: () => null,
@@ -36,7 +36,7 @@ export default function AuthLayout() {
         }}
       />
       <Tabs.Screen
-        name="favorites"
+        name="(favorites)"
         options={{
           title: 'Favorites',
           tabBarLabel: () => null,
