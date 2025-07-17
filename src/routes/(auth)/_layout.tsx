@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router'
 import React from 'react'
 
-import { Heart, House, Search, User } from '@/components/icons'
+import { House, Search, Star, User } from '@/components/icons'
 import { useTheme } from '@react-navigation/native'
 
 export default function AuthLayout() {
@@ -40,7 +40,7 @@ export default function AuthLayout() {
         options={{
           title: 'Favorites',
           tabBarLabel: () => null,
-          tabBarIcon: ({ color, size }) => <Heart color={color} size={size} />,
+          tabBarIcon: ({ color, size }) => <Star color={color} size={size} />,
         }}
       />
       <Tabs.Screen
