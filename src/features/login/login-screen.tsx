@@ -14,7 +14,8 @@ function LoginScreen() {
       <Button
         className="w-full"
         onPress={() => {
-          router.replace('/(auth)')
+          //@ts-ignore
+          router.replace('/(auth)/(home)')
         }}
       >
         <Text>Login</Text>

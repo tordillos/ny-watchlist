@@ -44,17 +44,11 @@ export default function AuthLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="(profile)/index"
         options={{
           title: 'Profile',
           tabBarLabel: () => null,
           tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
-        }}
-      />
-      <Tabs.Screen
-        name="index"
-        options={{
-          href: null, // hide route
         }}
       />
     </Tabs>

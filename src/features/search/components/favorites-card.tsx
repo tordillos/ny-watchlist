@@ -11,7 +11,8 @@ type CurrencyCardProps = {
 function CurrencyCard({ currency }: CurrencyCardProps) {
   const handlePress = () => {
     router.push({
-      pathname: '/(auth)/favorites/[id]',
+      // @ts-ignore
+      pathname: '[id]',
       params: {
         id: currency.code,
         name: currency.name,
