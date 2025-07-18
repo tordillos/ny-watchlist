@@ -2,6 +2,10 @@
 
 My Watchlist is a mobile application that allows users to track their favorite currencies and stocks.
 
+## Preview
+
+<img alt="Home" src="./.github/images/home.png" />
+
 ## Requirements
 
 Before running this project, make sure you have the following tools installed:
