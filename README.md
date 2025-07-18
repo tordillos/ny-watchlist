@@ -4,7 +4,9 @@ My Watchlist is a mobile application that allows users to track their favorite c
 
 ## Preview
 
-<img alt="Home" src="./.github/images/home.png" />
+<img alt="Home" height="400" src="./.github/images/home.png" />
+<img alt="Currency" height="400" src="./.github/images/currency.png" />
+<img alt="Search" height="400" src="./.github/images/search.png" />
 
 ## Requirements
 
