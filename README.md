@@ -59,3 +59,9 @@ This project is built using the following technologies:
 - No authentication or user accounts.
 - Data sources for currencies/stocks may have rate limits or delays.
 - Currency charts only display the last year of historical data, with no option to change the date range.
+
+## Upcoming Features
+
+- [ ] Price alerts with push notifications
+- [ ] Buy/sell functionality for cryptocurrencies
+- [ ] Transaction history tracking
