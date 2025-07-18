@@ -31,3 +31,31 @@ Before running this project, make sure you have the following tools installed:
    ```bash
    pnpm ios
    ```
+
+## Tech Stack
+
+This project is built using the following technologies:
+
+- **Expo**
+- **Expo Router** (navigation/routing)
+- **PNPM** (package manager)
+- **RNR Reusables** (UI primitives)
+- **NativeWind** (styling)
+- **Victory-Native** (charts)
+- **Zustand** (state management)
+- **MMKV** (fast key-value storage)
+- **Reanimated**
+
+## Design Decisions
+
+- **Expo Router** is used for navigation and file-based routing.
+- **NativeWind** is used for faster development.
+- **Zustand** is chosen for global state management due to its simplicity and performance.
+- **MMKV** is used for fast, persistent local storage.
+
+## Known Limitations
+
+- Only supports English language UI.
+- No authentication or user accounts.
+- Data sources for currencies/stocks may have rate limits or delays.
+- Currency charts only display the last year of historical data, with no option to change the date range.
